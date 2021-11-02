@@ -1,26 +1,63 @@
-const xp = +prompt('Введіть значення параметру хp'); // Запрошуємо ввід параметру x початкового
-const xk = +prompt('Введіть значення параметру хk'); // Запрошуємо ввід параметру x кінцевого
-const dx = +prompt('Введіть значення параметру dx'); // Запрошуємо ввід параметру кроку
-const eps = +prompt('Введіть значення параметру eps'); // Запрошуємо ввід параметру точності
+function genArr(arr, min, max, amount) {
+  if (arr.length < amount) {
+    const intN = Math.floor(min + Math.random() * (max - min + 1));
 
-console.log('|\tx\t\t|\tarctg(x)\t\t|\tS\t\t\t\t|\tn\t|');
+    arr.push(intN);
 
-for (let x = xp; x <= xk && x < -1; x += dx) {
-  
-  let a = -1 / x;
-  let S = a;
-  let n = 0;
+    return genArr(arr, min, max, amount)
+  }
 
-  do {
-    n++;
-
-    let R = (1 - 2 * n) / (2 * n * x * x + x * x);
-    
-    a *= R;
-    S += a;
-  } while (Math.abs(a) >= eps);
-
-  let result = -Math.PI / 2 + S;
-
-  console.log(`|\t${x.toFixed(2)}\t|\t${Math.atan(x).toFixed(10)}\t|\t${result.toFixed(10)}\t|\t${n}\t|`);
+  return arr;
 }
+
+function getSum(arr, i, sum) {
+  if (i < arr.length) {
+    if (arr[i] % 2 === 0 || !(i % 8 === 0)) {
+      sum += arr[i];
+    }
+
+    return getSum(arr, ++i, sum);
+  }
+
+  return sum;
+}
+
+function getAmount(arr, i, amount) {
+  if (i < arr.length) {
+    if (arr[i] % 2 === 0 || !(i % 8 === 0)) {
+      amount++
+    }
+
+    return getAmount(arr, ++i, amount);
+  }
+
+  return amount;
+}
+
+function setZero(arr, i) {
+  if (i < arr.length) {
+    if (arr[i] % 2 === 0 || !(i % 8 === 0)) {
+      arr[i] = 0;
+    }
+
+    return setZero(arr, ++i);
+  }
+}
+
+function arrToString(arr, i, string) {
+  if (i < arr.length) {
+    string += `${i}:\t${arr[i]}\n`;
+
+    return arrToString(arr, ++i, string);
+  }
+
+  return string;
+}
+
+const arr = genArr([], 5, 90, 25);
+
+console.log('Initial array:\n', arrToString(arr, 0, ''));
+console.log('Sum:', getSum(arr, 0, 0));
+console.log('Amount:', getAmount(arr, 0, 0));
+setZero(arr, 0);
+console.log('Changed array:\n', arrToString(arr, 0, ''));

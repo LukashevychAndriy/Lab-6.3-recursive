@@ -10,26 +10,16 @@ function genArr(arr, min, max, amount) {
   return arr;
 }
 
-function getMin(arr, min, minIdx, i) {
-  if (i >= arr.length) return minIdx;
-
-  if (min > arr[i]) {
-    min = arr[i];
-    minIdx = i;
+function getOddAmount(arr, amount, i) {
+  if (arr.length <= i) {
+    return amount;
   }
 
-  return getMin(arr, min, minIdx, ++i);
-}
-
-function getMax(arr, max, maxIdx, i) {
-  if (i >= arr.length) return maxIdx;
-
-  if (max < arr[i]) {
-    max = arr[i];
-    maxIdx = i;
+  if (arr[i] % 2 !== 0) {
+    amount++;
   }
 
-  return getMax(arr, max, maxIdx, ++i);
+  return getOddAmount(arr, amount, ++i);
 }
 
 function arrToString(arr, i, string) {
@@ -42,10 +32,7 @@ function arrToString(arr, i, string) {
   return string;
 }
 
-const n = +prompt('Введіть значення n');
-
-const arr = genArr([], -100000, 100000, n);
+const arr = genArr([], -100, 100, 10);
 
 console.log('Initial array:\n', arrToString(arr, 0, ''));
-console.log('Index of min num:', getMin(arr, arr[0], 0, 1));
-console.log('Index of max num:', getMax(arr, arr[0], 0, 1));
+console.log('Amount of odd numbers:', getOddAmount(arr, 0, 0));

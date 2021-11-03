@@ -10,38 +10,24 @@ function genArr(arr, min, max, amount) {
   return arr;
 }
 
-function getSum(arr, i, sum) {
-  if (i < arr.length) {
-    if (arr[i] % 2 === 0 || !(i % 8 === 0)) {
-      sum += arr[i];
-    }
+function getMin(arr, min, i) {
+  if (i >= arr.length) return min;
 
-    return getSum(arr, ++i, sum);
+  if (min > arr[i]) {
+    min = arr[i];
   }
 
-  return sum;
+  return getMin(arr, min, ++i);
 }
 
-function getAmount(arr, i, amount) {
-  if (i < arr.length) {
-    if (arr[i] % 2 === 0 || !(i % 8 === 0)) {
-      amount++
-    }
+function getMax(arr, max, i) {
+  if (i >= arr.length) return max;
 
-    return getAmount(arr, ++i, amount);
+  if (max < arr[i]) {
+    max = arr[i];
   }
 
-  return amount;
-}
-
-function setZero(arr, i) {
-  if (i < arr.length) {
-    if (arr[i] % 2 === 0 || !(i % 8 === 0)) {
-      arr[i] = 0;
-    }
-
-    return setZero(arr, ++i);
-  }
+  return getMax(arr, max, ++i);
 }
 
 function arrToString(arr, i, string) {
@@ -54,10 +40,10 @@ function arrToString(arr, i, string) {
   return string;
 }
 
-const arr = genArr([], 5, 90, 25);
+const n = +prompt('Введіть значення n');
+
+const arr = genArr([], -100000, 100000, n);
 
 console.log('Initial array:\n', arrToString(arr, 0, ''));
-console.log('Sum:', getSum(arr, 0, 0));
-console.log('Amount:', getAmount(arr, 0, 0));
-setZero(arr, 0);
-console.log('Changed array:\n', arrToString(arr, 0, ''));
+console.log('Min:', getMin(arr, arr[0], 1));
+console.log('Max:', getMax(arr, arr[0], 1));
